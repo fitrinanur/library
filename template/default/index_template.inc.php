@@ -31,15 +31,7 @@ if (!defined('INDEX_AUTH')) {
 } 
 
 ?>
-<!--
-==========================================================================
-   ___  __    ____  __  __  ___      __    _  _    __    ___  ____    __
-  / __)(  )  (_  _)(  \/  )/ __)    /__\  ( )/ )  /__\  / __)(_  _)  /__\
-  \__ \ )(__  _)(_  )    ( \__ \   /(__)\  )  (  /(__)\ \__ \ _)(_  /(__)\
-  (___/(____)(____)(_/\/\_)(___/  (__)(__)(_)\_)(__)(__)(___/(____)(__)(__)
 
-==========================================================================
--->
 <!DOCTYPE html>
 <html lang="<?php echo substr($sysconf['default_lang'], 0, 2); ?>" xmlns="http://www.w3.org/1999/xhtml" prefix="og: http://ogp.me/ns#">
 <head>
@@ -52,10 +44,6 @@ include "partials/meta.php";
 </head>
 
 <body itemscope="itemscope" itemtype="http://schema.org/WebPage">
-
-<!--[if lt IE 9]>
-<div class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</div>
-<![endif]-->
 
 <?php
 // Header
@@ -192,7 +180,7 @@ include "partials/nav.php";
           </p>
         </div>
         <input type="text" class="s-search animated fadeInUp delay4" id="keyword" name="keywords" value="" lang="<?php echo $sysconf['default_lang']; ?>" aria-hidden="true" autocomplete="off">
-        <button type="submit" name="search" value="search" class="s-btn animated fadeInUp delay4"><?php echo __('Search'); ?></button>
+        <button type="submit" name="search" value="search" class="s-btn animated fadeInUp delay4"><i class="fa fa-search fa-lg"></i></button>
         <div id="fkbx-spch" tabindex="0" aria-label="Telusuri dengan suara" style="display: block;"></div>
       </form>
     </div>
@@ -207,7 +195,7 @@ include "partials/nav.php";
 include "partials/footer.php"; 
 
 // Chat Engine
-include LIB."contents/chat.php"; 
+// include LIB."contents/chat.php"; 
 
 // Background
 include "partials/bg.php"; 

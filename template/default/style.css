@@ -969,7 +969,7 @@ keyframes coverShake 100% {
   }
 }
 .s-search {
-  border-radius: 50px;
+  border-radius: 0px;
   border: none;
   width: 100%;
   margin: 0 auto;
@@ -988,7 +988,7 @@ keyframes coverShake 100% {
     font-size: 15pt;
     text-align: left;
     width: 100px;
-    border-radius: 50px 0 0 50px;
+    border-radius: 0px 0 0 0px;
     padding: 14px 14px 14px 28px;
   }
 }
@@ -1010,7 +1010,7 @@ keyframes coverShake 100% {
 .s-btn {
   display: list-item;
   border: none;
-  border-radius: 50px;
+  border-radius: 0px;
   background-color: #fff;
   padding: 10px;
   color: #666;
@@ -1026,14 +1026,15 @@ keyframes coverShake 100% {
   .s-btn {
     margin-right: 32px;
     width: 125px;
-    border-radius: 0 50px 50px 0;
+    border-radius: 0 0px 0px 0;
     display: inline-block;
     margin-left: -5px;
     padding: 20px 18px 16px 18px;
+   /* padding: 20px 13px 9px 18px*/
   }
 }
 .s-btn:hover {
-  background-color: #000;
+  background-color: #31B5C7;
   color: #fff;
 }
 /* Biblio

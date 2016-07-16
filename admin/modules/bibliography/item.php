@@ -372,6 +372,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
                 WHERE b.biblio_id='.$array_data[$title_field_idx]);
             echo $obj_db->error;
             $_authors = '';
+            $_title = '';
             while ($_biblio_d = $_biblio_q->fetch_row()) {
                 $_title = $_biblio_d[0];
                 $_authors .= $_biblio_d[1].' - ';

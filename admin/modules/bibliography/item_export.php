@@ -75,6 +75,8 @@ if (isset($_POST['doExport'])) {
         $encloser = trim($_POST['fieldEnc']);
         $limit = intval($_POST['recordNum']);
         $offset = intval($_POST['recordOffset']);
+        $type = trim($_POST['typeExport']);
+
         if ($_POST['recordSep'] === 'NEWLINE') {
             $rec_sep = "\n";
         } else if ($_POST['recordSep'] === 'RETURN') {
@@ -82,10 +84,11 @@ if (isset($_POST['doExport'])) {
         } else {
             $rec_sep = trim($_POST['recordSep']);
         }
-        // fetch all data from item table
-        $sql = "SELECT
+
+        if ($type == '1') {
+            $sql = "SELECT
             i.item_code, i.call_number, ct.coll_type_name,
-            i.inventory_code, i.received_date, spl.supplier_name,
+            i.inventory_code, b.input_date, spl.supplier_name,
             i.order_no, loc.location_name,
             i.order_date, st.item_status_name, i.site,
             i.source, i.invoice, i.price, i.price_currency, i.invoice_date,
@@ -96,43 +99,96 @@ if (isset($_POST['doExport'])) {
             LEFT JOIN mst_supplier AS spl ON i.supplier_id=spl.supplier_id
             LEFT JOIN mst_item_status AS st ON i.item_status_id=st.item_status_id
             LEFT JOIN mst_location AS loc ON i.location_id=loc.location_id ";
-        if ($limit > 0) { $sql .= ' LIMIT '.$limit; }
-        if ($offset > 1) {
-            if ($limit > 0) {
-                $sql .= ' OFFSET '.($offset-1);
-            } else {
-                $sql .= ' LIMIT '.($offset-1).',99999999999';
-            }
-        }
-        // for debugging purpose only
-        // die($sql);
-        $all_data_q = $dbs->query($sql);
-        if ($dbs->error) {
-            utility::jsAlert(__('Error on query to database, Export FAILED!'.$dbs->error));
-        } else {
-            if ($all_data_q->num_rows > 0) {
-                header('Content-type: text/plain');
-                header('Content-Disposition: attachment; filename="senayan_item_export.csv"');
-                while ($item_d = $all_data_q->fetch_row()) {
-                    $buffer = null;
-                    foreach ($item_d as $idx => $fld_d) {
-                        $fld_d = $dbs->escape_string($fld_d);
-                        // data
-                        $buffer .=  stripslashes($encloser.$fld_d.$encloser);
-                        // field separator
-                        $buffer .= $sep;
-                    }
-                    echo substr_replace($buffer, '', -1);
-                    echo $rec_sep;
+            if ($limit > 0) { $sql .= ' LIMIT '.$limit; }
+            if ($offset > 1) {
+                if ($limit > 0) {
+                    $sql .= ' OFFSET '.($offset-1);
+                } else {
+                    $sql .= ' LIMIT '.($offset-1).',99999999999';
                 }
-                exit();
+            }
+
+            $all_data_q = $dbs->query($sql);
+            if ($dbs->error) {
+                utility::jsAlert(__('Error on query to database, Export FAILED!'.$dbs->error));
             } else {
-                utility::jsAlert(__('There is no record in item database yet, Export FAILED!'));
+                if ($all_data_q->num_rows > 0) {
+                    header('Content-type: text/plain');
+                    header('Content-Disposition: attachment; filename="senayan_item_export.csv"');
+                    while ($item_d = $all_data_q->fetch_row()) {
+                        $buffer = null;
+                        foreach ($item_d as $idx => $fld_d) {
+                            $fld_d = $dbs->escape_string($fld_d);
+                            // data
+                            $buffer .=  stripslashes($encloser.$fld_d.$encloser);
+                            // field separator
+                            $buffer .= $sep;
+                        }
+                        echo substr_replace($buffer, '', -1);
+                        echo $rec_sep;
+                    }
+                    exit();
+                } else {
+                    utility::jsAlert(__('There is no record in item database yet, Export FAILED!'));
+                }
+            }
+        } else {
+            $sql = "SELECT
+            i.item_code, b.call_number, 'Reference',
+            i.inventory_code, b.input_date, spl.supplier_name,
+            i.order_no, loc.location_name,
+            i.order_date, st.item_status_name, i.site,
+            '1', i.invoice, '0', 'Rupiah', i.invoice_date,
+            b.input_date, b.last_update, b.title
+            FROM item AS i
+            LEFT JOIN biblio AS b ON i.biblio_id=b.biblio_id
+            LEFT JOIN mst_coll_type AS ct ON i.coll_type_id=ct.coll_type_id
+            LEFT JOIN mst_supplier AS spl ON i.supplier_id=spl.supplier_id
+            LEFT JOIN mst_item_status AS st ON i.item_status_id=st.item_status_id
+            LEFT JOIN mst_location AS loc ON i.location_id=loc.location_id ";
+            if ($limit > 0) { $sql .= ' LIMIT '.$limit; }
+            if ($offset > 1) {
+                if ($limit > 0) {
+                    $sql .= ' OFFSET '.($offset-1);
+                } else {
+                    $sql .= ' LIMIT '.($offset-1).',99999999999';
+                }
+            }
+
+            $location_query = $dbs->query("SELECT * FROM mst_location WHERE location_id='SL'");
+            $location = $location_query->fetch_assoc();
+            // die($sql);
+            $all_data_q = $dbs->query($sql);
+            if ($dbs->error) {
+                utility::jsAlert(__('Error on query to database, Export FAILED!'.$dbs->error));
+            } else {
+                if ($all_data_q->num_rows > 0) {
+                    header('Content-type: text/plain');
+                    header('Content-Disposition: attachment; filename="senayan_item_export.csv"');
+                    while ($item_d = $all_data_q->fetch_row()) {
+                        $buffer = null;
+                        foreach ($item_d as $idx => $fld_d) {
+                            if($idx == 7) {
+                                $fld_d = $location['location_name'];
+                            }
+                            $fld_d = $dbs->escape_string($fld_d);
+                            $buffer .=  stripslashes($encloser.$fld_d.$encloser);
+                            $buffer .= $sep;
+                        }
+                        echo substr_replace($buffer, '', -1);
+                        echo $rec_sep;
+                    }
+                    exit();
+                } else {
+                    utility::jsAlert(__('There is no record in item database yet, Export FAILED!'));
+                }
             }
         }
+
     }
     exit();
 }
+
 ?>
 <fieldset class="menuBox">
 <div class="menuBoxInner exportIcon">
@@ -168,5 +224,10 @@ $form->addSelectList('recordSep', __('Record Separator'), $rec_sep_options);
 $form->addTextField('text', 'recordNum', __('Number of Records To Export (0 for all records)'), '0', 'style="width: 10%;"');
 // records offset
 $form->addTextField('text', 'recordOffset', __('Start From Record'), '1', 'style="width: 10%;"');
+$default_option = array(
+    array('1', 'Update'),
+    array('0', 'Default')
+);
+$form->addSelectList('typeExport', __('Type Export'), $default_option);
 // output the form
 echo $form->printOut();

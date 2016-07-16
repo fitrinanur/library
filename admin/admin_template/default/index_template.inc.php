@@ -24,13 +24,7 @@
 // Need to modified script to adaptive new theme
 include 'function.php';
 ?>
-<!-- =====================================================================
- ___  __    ____  __  __  ___      __    _  _    __    ___  ____    __
-/ __)(  )  (_  _)(  \/  )/ __)    /__\  ( )/ )  /__\  / __)(_  _)  /__\
-\__ \ )(__  _)(_  )    ( \__ \   /(__)\  )  (  /(__)\ \__ \ _)(_  /(__)\
-(___/(____)(____)(_/\/\_)(___/  (__)(__)(_)\_)(__)(__)(___/(____)(__)(__)
 
-========================================================================== -->
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -143,7 +137,7 @@ include 'function.php';
     $('.s-current-child').click(function(){
       $('.left, .right, .loader').removeClass('active');
       $('.s-help > i').removeClass('fa-times').addClass('fa-question-circle');
-      $('.s-help-content').html();
+      $('.s-help-content').html()
       $('.s-help').removeClass('active');
       var get_url       = $(this).attr('href');
       var path_array    = get_url.split('/');

@@ -503,9 +503,9 @@ if (defined('DB_ACCESS') && DB_ACCESS == 'fa' && file_exists(SB.'config'.DS.'sys
 /* DATABASE RELATED */
 if (!defined('DB_HOST')) { define('DB_HOST', 'localhost'); }
 if (!defined('DB_PORT')) { define('DB_PORT', '3306'); }
-if (!defined('DB_NAME')) { define('DB_NAME', 'senayandb'); }
-if (!defined('DB_USERNAME')) { define('DB_USERNAME', 'senayanuser'); }
-if (!defined('DB_PASSWORD')) { define('DB_PASSWORD', 'password_senayanuser'); }
+if (!defined('DB_NAME')) { define('DB_NAME', 'library  '); }
+if (!defined('DB_USERNAME')) { define('DB_USERNAME', 'root'); }
+if (!defined('DB_PASSWORD')) { define('DB_PASSWORD', 'root'); }
 // database connection
 // we prefer to use mysqli extensions if its available
 if (extension_loaded('mysqli')) {

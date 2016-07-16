@@ -94,7 +94,6 @@ if (isset($_GET['p'])) {
             $content = new Content();
             $content_data = $content->get($dbs, 'headerinfo');
             if ($content_data) {
-                //$header_info .= '<div id="headerInfo">'.$content_data['Content'].'</div>';
                 unset($content_data);
             }
         }

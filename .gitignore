@@ -10,8 +10,6 @@ cache/*
 ._.*
 ._*
 .project
-sysconfig.local.inc.php
-config/sysconfig.local.inc.php
-sysconfig.inc.php
 slims8_akasia.sublime-project
 slims8_akasia.sublime-workspace
+.idea/*

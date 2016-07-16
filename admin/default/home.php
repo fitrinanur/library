@@ -360,7 +360,7 @@ if($sysconf['admin_home']['mode'] == 'default') {
                             <td class="text-right"><?php echo $get_total_extends?></td>
                         </tr>
                         <tr>
-                            <td class="text-left"><i class="fa fa-square" style="color:#F4CC17;"></i>&nbsp;&nbsp;Overdue</dd>
+                            <td class="text-left"><i class="fa fa-square" style="color:#F4CC17;"></i>&nbsp;&nbsp;Overdue</td>
                             <td class="text-right"><?php echo $get_total_overdue?></td>
                         </tr>
                     </table>                                      
